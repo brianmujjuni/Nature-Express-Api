@@ -36,7 +36,15 @@ app.post("/api/v1/tours", (req, res) => {
       });
     }
   );
-  res.status(201).json({ message: "You can post to this endpoint...." });
+});
+
+app.get("/api/v1/tours/:id", (req, res) => {
+  const id = req.params.id * 1;
+  if(id > tours.length){
+    return res.status(404).json({status: "Fail",message: "Invalid Id"})
+  }
+  const tour = tours.find((el) => el.id === id);
+  res.status(200).json({ status: "success", data: { tour } });
 });
 
 const port = 3000;
