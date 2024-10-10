@@ -17,18 +17,11 @@ app.use((req, res, next) => {
   next();
 });
 
-//3) Routes
-
-
-
-
-
-
-
 
 //mount routes
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users",userRouter);
+
 //4) start the server
 const port = 3000;
 
