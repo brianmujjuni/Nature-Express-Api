@@ -112,8 +112,7 @@ const deleteUser = (req, res) => {
     .json({ status: "error", message: "This route is not yet defined" });
 };
 //3) Routes
-app.use("/api/v1/tours", tourRouter);
-app.use("/api/v1/users",userRouter);
+
 
 const tourRouter = express.Router();
 const userRouter = express.Router();
@@ -124,6 +123,8 @@ tourRouter.route("/:id").get(getTour).patch(updateTour).delete(deleteTour);
 userRouter.route("/").get(getAllUsers).post(createUser);
 userRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
+app.use("/api/v1/tours", tourRouter);
+app.use("/api/v1/users",userRouter);
 //4) start the server
 const port = 3000;
 
