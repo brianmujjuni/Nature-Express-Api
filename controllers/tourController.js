@@ -4,18 +4,20 @@ const Tour = require("../models/tourModel");
 //     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 //   );
 
-exports.getAllTours = (req, res) => {
+exports.getAllTours = async(req, res) => {
+  const tours = await Tour.find()
   res.status(200).json({
     status: "success",
     time: req.requestTime,
-    // results: tours.length,
-    // data: {
-    //   tours,
-    // },
+    results: tours.length,
+    data: {
+      tours,
+    },
   });
 };
 
 exports.getTour = (req, res) => {
+
   res.status(200).json({ status: "success", data: "" });
 };
 
