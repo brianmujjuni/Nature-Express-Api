@@ -1,5 +1,5 @@
 const Tour = require("../models/tourModel");
-const APIFeatures = require('../utils/apiFeatures')
+const APIFeatures = require("../utils/apiFeatures");
 // const tours = JSON.parse(
 //     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 //   );
@@ -14,7 +14,11 @@ exports.aliasTopTours = (req, res, next) => {
 exports.getAllTours = async (req, res) => {
   try {
     //execute the query
-    const features = new APIFeatures(Tour.find(), req.query).filter().sort().limitFields().paginate();
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const tours = await features.query;
 
     res.status(200).json({
@@ -90,6 +94,38 @@ exports.deleteTour = async (req, res) => {
       status: "Success",
       data: null,
     });
+  } catch (error) {
+    res.status(404).json({
+      status: "failed",
+      message: error,
+    });
+  }
+};
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = Tour.aggregate([
+      {
+        $match: {
+          ratingsAverge: { $gte: 4.5 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          avgRating: { $avg: "$ratingAverage" },
+          avgPrice: { $avg: "$price" },
+          minPrice: { $min: "$price" },
+          maxPrice: { $max: "$price" },
+        },
+      },
+      
+    ]);
+    res.status(200).json({
+      status: "Success",
+      data: stats,
+    });
+    
   } catch (error) {
     res.status(400).json({
       status: "failed",
