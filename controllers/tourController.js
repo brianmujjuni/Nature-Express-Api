@@ -50,22 +50,16 @@ exports.getTour = async (req, res) => {
   }
 };
 
-exports.createTour = async (req, res) => {
-  try {
-    const newTour = await Tour.create(req.body);
-    res.status(201).json({
-      status: "Sucess",
-      data: {
-        newTour,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "failed",
-      message: error,
-    });
-  }
-};
+
+exports.createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
+  res.status(201).json({
+    status: "Sucess",
+    data: {
+      newTour,
+    },
+  });
+});
 
 exports.updateTour = async (req, res) => {
   try {
@@ -164,16 +158,16 @@ exports.getMonthlyPlan = async (req, res) => {
         $addFields: { month: "$_id" },
       },
       {
-        $project:{
-          _id: 0
-        }
+        $project: {
+          _id: 0,
+        },
       },
       {
-        $sort:{numToursStarts: -1}
+        $sort: { numToursStarts: -1 },
       },
       {
-        $limit: 12
-      }
+        $limit: 12,
+      },
     ]);
     res.status(200).json({
       status: "success",
