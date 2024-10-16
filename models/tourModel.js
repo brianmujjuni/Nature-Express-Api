@@ -60,7 +60,7 @@ const tourSchema = new mongoose.Schema({
   startDates: [Date],
   secretTour:{
     type: Boolean,
-    default: flase
+    default: false
   }
 },{
   toJSON: { virtuals: true},
