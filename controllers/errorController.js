@@ -16,6 +16,8 @@ const handleValidationErrorDB = err => {
   const errors = Object.values(err.errors).map(el => el.message);
 
   const message = `Invalid input data. ${errors.join('. ')}`;
+  // console.log(err)
+  // const message = 'we are here loading errors'
   return new AppError(message, 400);
 };
 
@@ -59,10 +61,11 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
-
+   
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    if (error.name === 'ValidationError')
+    
+    if (err.name === 'ValidationError')
       error = handleValidationErrorDB(error);
 
     sendErrorProd(error, res);
