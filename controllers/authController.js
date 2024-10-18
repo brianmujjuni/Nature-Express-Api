@@ -21,8 +21,9 @@ exports.signup = catchAsysnc(async (req, res, next) => {
 exports.login = catchAsysnc(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    next(new AppError("Please provide email and password", 400));
+   return next(new AppError("Please provide email and password", 400));
   }
+  const user = User.findOne({email})
   res.status(200).json({
     "token":'jjjjj'
   })
