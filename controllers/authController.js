@@ -36,11 +36,23 @@ exports.login = catchAsysnc(async (req, res, next) => {
   const token = signToken(user._id);
 
   res.status(200).json({
-    "status": 'success',
+    status: "success",
     token: token,
   });
 });
 
-exports.protect = catchAsysnc((req,res,next)=>{
-  next()
-})
+exports.protect = catchAsysnc(async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  if (!token) {
+    return next(
+      new AppError("You are not logged in ,Please log in to get access", 401)
+    );
+  }
+  next();
+});
