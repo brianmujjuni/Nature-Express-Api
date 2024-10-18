@@ -36,6 +36,11 @@ exports.login = catchAsysnc(async (req, res, next) => {
   const token = signToken(user._id);
 
   res.status(200).json({
+    "status": 'success',
     token: token,
   });
 });
+
+exports.protect = catchAsysnc((req,res,next)=>{
+  next()
+})
