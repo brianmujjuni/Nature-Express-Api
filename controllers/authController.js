@@ -23,7 +23,9 @@ exports.login = catchAsysnc(async (req, res, next) => {
   if (!email || !password) {
    return next(new AppError("Please provide email and password", 400));
   }
-  const user = User.findOne({email})
+  
+  const user = await User.findOne({email}).seletc('+password')
+
   res.status(200).json({
     "token":'jjjjj'
   })
