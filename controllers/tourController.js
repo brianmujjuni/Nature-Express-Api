@@ -21,6 +21,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   // SEND RESPONSE
   res.status(200).json({
     status: 'success',
+    //  user: req.user,
     results: tours.length,
     data: {
       tours
