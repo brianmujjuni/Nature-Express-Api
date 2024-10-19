@@ -10,8 +10,14 @@ const signToken = (id) => {
   });
 };
 exports.signup = catchAsysnc(async (req, res, next) => {
-  const { name, email, password, passwordConfirm ,role} = req.body;
-  const newUser = await User.create({ name, email, password, passwordConfirm ,role});
+  const { name, email, password, passwordConfirm, role } = req.body;
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    passwordConfirm,
+    role,
+  });
   const token = signToken(newUser._id);
   res.status(201).json({
     status: "Success",
@@ -69,10 +75,17 @@ exports.protect = catchAsysnc(async (req, res, next) => {
     );
   }
 
-  req.user = currentUser
+  req.user = currentUser;
   next();
 });
 
-exports.restrictTo = (req,res,next)=>{
-
-}
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError("You donot have permission to perform this action")
+      );
+    }
+    next();
+  };
+};
