@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-const sendEmail = options => {
+const sendEmail =async options => {
     const transpoter = nodemailer.createTransport({
         // service: 'Gmail',
         host: process.env.EMAIL_HOST,
@@ -18,4 +18,6 @@ const sendEmail = options => {
         text: options.message,
         // html:
     }
+   await transpoter.sendMail(mailOptions)
 }
+module.exports = sendEmail
