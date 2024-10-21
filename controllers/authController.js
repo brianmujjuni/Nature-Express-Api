@@ -11,6 +11,18 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: "Success",
+    data: {
+      token,
+      user,
+    },
+  });
+};
+
 exports.signup = catchAsysnc(async (req, res, next) => {
   const { name, email, password, passwordConfirm, role } = req.body;
   const newUser = await User.create({
@@ -20,14 +32,8 @@ exports.signup = catchAsysnc(async (req, res, next) => {
     passwordConfirm,
     role,
   });
-  const token = signToken(newUser._id);
-  res.status(201).json({
-    status: "Success",
-    data: {
-      token,
-      user: newUser,
-    },
-  });
+
+  createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsysnc(async (req, res, next) => {
@@ -42,12 +48,7 @@ exports.login = catchAsysnc(async (req, res, next) => {
   if (!user || !correct) {
     return next(new AppError("Incorrect email or password", 401));
   }
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status: "success",
-    token: token,
-  });
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsysnc(async (req, res, next) => {
@@ -153,11 +154,16 @@ exports.resetPassword = catchAsysnc(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  const token = signToken(user._id)
-  
-  res.status(200).json({
-    status: 'success',
-    token
-  })
+  createSendToken(user, 200, res);
+});
 
+exports.updatePassword = catchAsysnc(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+  if (!(await user.correctPassword(req.body.passwordConfirm, user.password))) {
+    return next(new AppError("Your current password is wrong", 401));
+  }
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+  createSendToken(user, 200, res);
 });
