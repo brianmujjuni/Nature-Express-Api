@@ -73,6 +73,12 @@ userSchema.pre("save", function (next) {
   this.passwordChangesAt = Date.now() - 1000;
   next();
 });
+
+userSchema.pre(/^find/,function(next){
+  this.find({active: {$ne: false }})
+  next()
+})
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
