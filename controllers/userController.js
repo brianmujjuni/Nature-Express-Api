@@ -22,7 +22,7 @@ exports.getAllUsers = catchAsysnc(async (req, res, next) => {
   });
 });
 
-exports.updateMe = catchAsysnc(async(req, res, next) => {
+exports.updateMe = catchAsysnc(async (req, res, next) => {
   if (req.body.password ?? req.body.passwordConfirm) {
     return next(new AppError("This route is not for password updates.", 400));
   }
@@ -39,6 +39,14 @@ exports.updateMe = catchAsysnc(async(req, res, next) => {
     data: {
       user: updateUser,
     },
+  });
+});
+
+exports.deleteMe = catchAsysnc(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user._id, { active: false });
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
 exports.getUser = (req, res) => {
