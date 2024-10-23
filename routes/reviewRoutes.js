@@ -1,8 +1,15 @@
-const express = require("express")
+const express = require("express");
 
-const {} = require("../controllers/reviewController")
+const {
+  getAllReviews,
+  createReview,
+} = require("../controllers/reviewController");
+const { protect, restrictTo } = require("../controllers/authController");
 
-const router = express.Router()
-router.route('/')
+const router = express.Router();
+router
+  .route("/")
+  .get(protect, getAllReviews)
+  .post(protect, restrictTo("user"), createReview);
 
-module.exports = router
+module.exports = router;
