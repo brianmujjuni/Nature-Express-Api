@@ -21,7 +21,7 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllReviews = catchAsync(async (req, res, next) => {
+exports.getReview = catchAsync(async (req, res, next) => {
   const review = await Review.findById(req.params.id);
   if (!review) {
     return next(new AppError("No review was found with that ID", 404));
