@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 dotenv.config({ path: "./config.env" });
 const Tour = require("./../../models/tourModel");
+const User = require('../../models/userModel')
 
 
 const DB = process.env.DATABASE.replace(
@@ -24,12 +25,16 @@ mongoose
 //Read JSON FILE
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/tours.json`, "utf-8")
+  
 );
+
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`,"utf-8"))
 
 //IMPORT DATA INTO DB
 const importData = async () => {
   try {
     await Tour.create(tours);
+    await User.create(users)
     process.exit()
   } catch (error) {
     console.log(error);
@@ -40,6 +45,7 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Tour.deleteMany();
+    await User.deleteMany()
     process.exit()
   } catch (error) {
     console.log(error);
