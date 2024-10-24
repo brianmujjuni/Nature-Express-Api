@@ -17,7 +17,6 @@ const {
   updatePassword,
 } = require("./../controllers/authController");
 
-
 const router = express.Router();
 
 router.route("/signup").post(signup);
@@ -29,7 +28,7 @@ router.route("/updateMe").patch(protect, updateMe);
 router.route("/deleteMe").delete(protect, deleteMe);
 
 router.route("/").get(getAllUsers).post(createUser);
-router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+router.route("/:id").get(getUser).patch(updateUser).delete(protect, deleteUser);
 
 //revie
 module.exports = router;
