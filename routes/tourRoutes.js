@@ -14,7 +14,7 @@ const reviewRouter = require("../routes/reviewRoutes")
 // const { createReview } = require("../controllers/reviewController");
 
 const router = express.Router();
-//router merge
+//nested create review route
 router.use('/:tourId/reviews',reviewRouter)
 
 router.route("/top-5-cheap").get(aliasTopTours, getAllTours);
