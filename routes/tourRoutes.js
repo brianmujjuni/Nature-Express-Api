@@ -14,11 +14,9 @@ const reviewRouter = require("../routes/reviewRoutes")
 // const { createReview } = require("../controllers/reviewController");
 
 const router = express.Router();
-
+//router merge
 router.use('/:tourId/reviews',reviewRouter)
-// router
-//   .route("/:tourId/reviews")
-//   .post(protect, restrictTo("user"), createReview);
+
 router.route("/top-5-cheap").get(aliasTopTours, getAllTours);
 router.route("/tour-stats").get(getTourStats);
 router.route("/monthly-plan/:year").get(getMonthlyPlan);
