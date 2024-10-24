@@ -29,7 +29,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = factory.getOne(Tour, { path: "reviews" });
+exports.getTour = factory.getOne(Tour, { path: "review" });
 exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOne(Tour);
