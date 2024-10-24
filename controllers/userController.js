@@ -13,16 +13,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsysnc(async (req, res, next) => {
-  const users = await User.find();
-  res.status(200).json({
-    status: "sucess",
-    data: {
-      users,
-    },
-  });
-});
-
 exports.updateMe = catchAsysnc(async (req, res, next) => {
   if (req.body.password ?? req.body.passwordConfirm) {
     return next(new AppError("This route is not for password updates.", 400));
@@ -50,7 +40,7 @@ exports.deleteMe = catchAsysnc(async (req, res, next) => {
     data: null,
   });
 });
-exports.getUser = factory.getOne(User)
+
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: "error",
@@ -58,5 +48,7 @@ exports.createUser = (req, res) => {
   });
 };
 //Don't update user password with this
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
