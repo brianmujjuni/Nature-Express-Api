@@ -11,13 +11,14 @@ const {
 const { protect, restrictTo } = require("../controllers/authController");
 
 const router = express.Router({ mergeParams: true });
+router.use(protect)
 router
   .route("/")
-  .get(protect, getAllReviews)
-  .post(protect, restrictTo("user"), setTourUserId, createReview);
+  .get(getAllReviews)
+  .post(restrictTo("user"), setTourUserId, createReview);
 router
   .route("/:id")
-  .delete(protect, deleteReview)
-  .patch(protect, updateReview)
-  .get(protect, getReview);
+  .delete(deleteReview)
+  .patch(updateReview)
+  .get(getReview);
 module.exports = router;
