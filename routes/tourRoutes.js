@@ -16,18 +16,19 @@ const reviewRouter = require("../routes/reviewRoutes");
 const router = express.Router();
 //nested create review route
 router.use("/:tourId/reviews", reviewRouter);
-
 router.route("/top-5-cheap").get(aliasTopTours, getAllTours);
 router.route("/tour-stats").get(getTourStats);
-router.route("/monthly-plan/:year").get(getMonthlyPlan);
+router
+  .route("/monthly-plan/:year")
+  .get(protect, restrictTo("admin", "lead-guide", "guide"), getMonthlyPlan);
 router
   .route("/")
-  .get(protect, restrictTo("admin", "lead-guide", "user"), getAllTours)
-  .post(createTour);
+  .get(getAllTours)
+  .post(protect, restrictTo("admin", "lead-guide"), createTour);
 router
   .route("/:id")
   .get(getTour)
-  .patch(updateTour)
+  .patch(protect, restrictTo("admin", "lead-guide"), updateTour)
   .delete(protect, restrictTo("admin"), deleteTour);
 
 module.exports = router;
