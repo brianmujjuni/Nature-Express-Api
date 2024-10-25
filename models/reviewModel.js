@@ -63,10 +63,10 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   ]);
 };
 
-reviewSchema.post("save", function (next) {
+reviewSchema.post("save", function () {
   //this point to the current review
   this.constructor.calcAverageRatings(this.tour);
-  next();
+  
 });
 const Review = mongoose.model("Review", reviewSchema);
 module.exports = Review;
