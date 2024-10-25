@@ -63,7 +63,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   ]);
 };
 
-reviewSchema.pre("save", function (next) {
+reviewSchema.post("save", function (next) {
   //this point to the current review
   this.constructor.calcAverageRatings(this.tour);
   next();
