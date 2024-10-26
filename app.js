@@ -18,6 +18,10 @@ const app = express();
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
+//server static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, "public")));
+
 //Set Securuty HTTP header
 app.use(helmet());
 
@@ -56,16 +60,19 @@ app.use(
   })
 );
 
-//server static files
-// app.use(express.static(`${__dirname}/public`));
-app.use(express.static(path.join(__dirname,"public")))
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
 // 3) ROUTES
+
+app.get("/", (req, res) => {
+  res
+    .status(200)
+    .render("base", { tour: "Mujjuni Brian", developer: "Project Code" });
+});
+
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/reviews", reviewRouter);
