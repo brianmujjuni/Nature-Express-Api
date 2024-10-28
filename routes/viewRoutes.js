@@ -1,4 +1,5 @@
 const express = require("express");
+const { getOverview, getTour } = require("../controllers/viewsController");
 
 const router = express.Router();
 
@@ -8,15 +9,7 @@ router.get("/", (req, res) => {
     .render("base", { tour: "Mujjuni Brian", developer: "Project Code" });
 });
 
-router.get("/overview", (req, res) => {
-  res.status(200).render("overview", {
-    title: "All Tours",
-  });
-});
+router.get("/overview", getOverview);
 
-router.get("/tour", (req, res) => {
-  res.status(200).render("tour", {
-    title: "The Forest Hiker Tour",
-  });
-});
+router.get("/tour", getTour);
 module.exports = router;
