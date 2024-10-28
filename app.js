@@ -67,23 +67,7 @@ app.use((req, res, next) => {
 
 // 3) ROUTES
 
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .render("base", { tour: "Mujjuni Brian", developer: "Project Code" });
-});
 
-app.get('/overview',(req,res)=>{
-  res.status(200).render('overview',{
-    title: "All Tours"
-  })
-})
-
-app.get('/tour',(req,res)=>{
-  res.status(200).render('tour',{
-    title: "The Forest Hiker Tour"
-  })
-})
 
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
