@@ -22,6 +22,7 @@ app.set("views", path.join(__dirname, "views"));
 //server static files
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, "public")));
+// app.use('/js', express.static(path.join(__dirname, 'js')));
 
 //Set Securuty HTTP header
 app.use(helmet());
