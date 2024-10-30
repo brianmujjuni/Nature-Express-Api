@@ -25,7 +25,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use('/js', express.static(path.join(__dirname, 'js')));
 
 //Set Securuty HTTP header
-app.use(helmet());
+app.use(
+  helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
+  // helmet()
+);
+
+
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === "development") {
