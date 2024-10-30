@@ -7,6 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 
+
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const tourRouter = require("./routes/tourRoutes");
@@ -29,8 +30,6 @@ app.use(
   helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
   // helmet()
 );
-
-
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === "development") {
