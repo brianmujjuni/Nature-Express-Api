@@ -7,6 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 
 const AppError = require("./utils/appError");
@@ -33,6 +34,7 @@ const corsOptions = {
   optionsSuccessStatus: 200 // For older browsers
 };
 app.use(cors(corsOptions))
+
 //Set Securuty HTTP header
 app.use(
   helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
@@ -55,6 +57,7 @@ app.use("/api", limiter);
 
 //BODY PARSER
 app.use(express.json({ limit: "10kb" }));
+app.use(cookieParser())
 
 //data sanitization against NoSql query injection
 app.use(mongoSanitize());
