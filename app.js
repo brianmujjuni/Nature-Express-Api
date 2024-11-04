@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
+const cors = require('cors')
 
 
 const AppError = require("./utils/appError");
@@ -25,6 +26,13 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 // app.use('/js', express.static(path.join(__dirname, 'js')));
 
+const corsOptions = {
+  origin: '*', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Allow credentials if needed
+  optionsSuccessStatus: 200 // For older browsers
+};
+app.use(cors(corsOptions))
 //Set Securuty HTTP header
 app.use(
   helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
