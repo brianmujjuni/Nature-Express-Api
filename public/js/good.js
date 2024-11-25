@@ -10,7 +10,7 @@ const login = async (email, password) => {
     });
     console.log(res);
   } catch (error) {
-    console.log(error);
+    console.log(error); 
   }
 };
 document.querySelector(".form").addEventListener("submit", (e) => {
